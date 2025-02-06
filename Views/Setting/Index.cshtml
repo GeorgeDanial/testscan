@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Models.Setting>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>@ViewBag.Title</h5>
+                    </div>
+                    @using (Html.BeginForm())
+                    {
+
+                        <div class="table-responsive ">
+                            <table class="table">
+                                <tbody>
+                                    @foreach (var m in Model)
+                                    {
+
+                                        <tr>
+                                            <td style="width:25%">@m.Name</td>
+                                            <td style="width:25%">
+
+                                                @*<input type="text" name="@m.Name" value="@m.Value" class="form-control " />*@
+                                                <a class="btn btn-primary" href="@Url.Action("EditTemplate",new {Id=m.Name })">Edit</a>
+                                            </td>
+                                        </tr>
+
+
+                                    }
+
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Save" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

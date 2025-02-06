@@ -1,0 +1,17 @@
+﻿@model  Models.Meeting
+
+@{
+    ViewBag.Title = "ViewPattern";
+    Layout = null;
+}
+
+<h2>View Email Pattern</h2>
+
+   @if (string.IsNullOrEmpty(Model.TemplateSent))
+            {
+<p>Template Pattern Not Found</p>
+            }
+   
+
+@Html.Raw(Model.TemplateSent)
+
