@@ -1,0 +1,100 @@
+﻿@using Portal.Helpers
+@model IEnumerable<Portal.Models.Role>
+
+@{
+    ViewBag.Title = "Roles";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Home", new {Area = ""})">Home</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>List</h5>
+                    <div class="ibox-tools">
+                        @*@Html.ActionLink("Add", "Create" , null,
+                            new {@class= "btn btn-primary btn-rounded" })*@
+                        
+                        @if (User.IsInRole("RolesAdd"))
+                        {
+                            <a class="dropdown-toggle" href="@Url.Action("Add")">
+                                <i class="fa fa-plus"> Add New</i>
+                            </a>
+                        }
+                    </div>
+                </div>
+
+                @Html.WebGridFor(Model, new List<WebGridColumn>
+                {
+                    new WebGridColumn {Header = "Role Name",ColumnName = "Name"},
+                    new WebGridColumn {Header = "Description", ColumnName = "Description" },
+                    new WebGridColumn {Header = "Permissions Count",ColumnName ="Permissions.Count"}
+                })
+
+
+                @*@Ajax.AjaxWebGridFor(Model,new List<WebGridColumn>
+                    {
+                        new WebGridColumn {Header = "ID", ColumnName = "Id" },
+                        new WebGridColumn {Header = "Permission Name",ColumnName = "Name"}
+                    }).GetHtml()*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/dataTables")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel', title: '@ViewBag.Title' },
+                    { extend: 'pdf', title: '@ViewBag.Title' },
+
+                    {
+                        extend: 'print',
+                        customize: function (win) {
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
+
+            });
+        });
+
+    </script>
+}
