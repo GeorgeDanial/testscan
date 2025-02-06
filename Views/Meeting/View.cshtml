@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@using Portal.Models
 @using Portal.ViewModels
 
@@ -312,3 +313,319 @@
 
     </script>
 }
+=======
+﻿@using Portal.Models
+@using Portal.ViewModels
+
+@model View_MeetingModel
+@{
+    ViewBag.Title = "View";
+    var BIG_MEETING = Model.Meeting.MeetingtypeId ==3? "  (Big Meeting)" : "";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>View</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("List", "Index")
+            </li>
+            <li class="active">
+                <strong>View</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>View Meeting</h5>
+                </div>
+                <div class="ibox-content">
+                    @if (!string.IsNullOrEmpty(Request.QueryString["Participate"]))
+                    {
+                        @Html.ActionLink("Back to Participant", "View", "Participate", new { id = Request.QueryString["Participate"] }, new { @class = "btn btn-danger pull-right" })
+                    }
+
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <h5>Meeting Wrap-UP OpenRate</h5>
+                                    <h1> @ViewBag.WrapupOpenRate %</h1>
+                                    <div class="progress progress-mini">
+                                        <div style="        width: @ViewBag.WrapupOpenRate%;" class="progress-bar"></div>
+                                    </div>
+
+                                    <div class="m-t-sm small">Wrap-Up  Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ibox">
+                                <div class="ibox-content">
+                                    <h5>Meeting Report OpenRate</h5>
+                                    <h1> @ViewBag.ReportOpenRate %</h1>
+                                    <div class="progress progress-mini">
+                                        <div style="        width: @ViewBag.ReportOpenRate%;" class="progress-bar"></div>
+                                    </div>
+
+                                    <div class="m-t-sm small">Report Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewBag.RecurringObject != null)
+                        {
+                            <div class="col-lg-4">
+                                <div class="ibox">
+                                    <div class="ibox-content">
+                                        <h4>
+                                            <i class="fa fa-repeat" aria-hidden="true">    </i> Recurring
+                                        </h4>
+
+                                        <h2> @(ViewBag.RecurringObject?.Frequancy??"N/A")</h2>
+
+                                        <h5>
+                                            Recurring Until : @(ViewBag.RecurringObject?.UntilDate?.ToString("MM/dd/yyyy")??"No End Date")
+
+
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+
+                    <div class="col-xs-6 ">
+
+                        <p class="lead">@Model.Meeting.Subject</p>
+
+                        <a href="@Model.Meeting.SurvayLink" class="btn btn-primary">Survey Link</a>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                        </div>
+
+                        @*<div style="display:none">
+                                <div class="row">
+                                    @Html.Raw(Json.Encode(ViewBag.VMeeting))
+                                </div>
+                                @if (ViewBag.Ex != null)
+                                {
+                                    <div class="row">@ViewBag.Ex</div>
+                                    <div class="row">@ViewBag.Ex.Message</div>
+                                    <div class="row">@ViewBag.Ex.StackTrace</div>
+                                    <div class="row">@ViewBag.Ex.InnerException</div>
+
+                                    if (ViewBag.Ex.InnerException != null)
+                                    {
+                                        <div class="row">@ViewBag.Ex.InnerException.Message</div>
+                                        <div class="row">@ViewBag.Ex.InnerException.Data</div>
+                                        <div class="row">@ViewBag.Ex.InnerException.InnerException</div>
+
+                                    }
+                                }
+                            </div>*@
+
+
+                        <div class="table-responsive ">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th style="width:50%">Organizer Name :</th>
+                                        <td>@Model.Meeting.Participate.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Start Date :</th>
+                                        <td>@Model.Meeting.StartDate.Value.ToFormat12h()</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting End Date :</th>
+                                        <td>
+                                            @Model.Meeting.EndDate.Value.ToFormat12h() <br />
+                                            @Model.Meeting.EnddateUTC.Value.ToFormat12h() (UTC-Time)
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Duration :</th>
+                                        <td>@Model.Meeting.Duration</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Location :</th>
+                                        <td>@Model.Meeting.Location</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Status :</th>
+                                        <td>@Model.Meeting.Status</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Time Zone :</th>
+                                        <td>@Model.Meeting.timeZone</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">MeetingID :</th>
+                                        <td>@Model.Meeting.MeetingID</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Type :</th>
+                                        <td>@(Model.Meeting.isFewParticpants.HasValue &&Model.Meeting.isFewParticpants.Value?"1:1 Meeting":"Group Meeting"+ BIG_MEETING)</td>
+                                    </tr>
+
+
+
+                                    <tr>
+                                        <th style="width:50%">Meeting Row Score :</th>
+                                        <td>@Model.Meeting.MeetingOverAllScore</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Meeting Mail Sent Date :</th>
+                                        <td>@Model.Meeting.MailDate.Value.ToFormat12h()</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">WrapUp Status</th>
+                                        <td>@((string.IsNullOrEmpty(Model.Meeting.formId) || Model.Meeting.formId == "CLOSED") ? "NOT SENT": "SENT")</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Report Status</th>
+                                        <td>@((Model.Meeting.finalcamaginId.HasValue&&Model.Meeting.finalcamaginId==1000) ? "SENT": "NOT SENT")</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Service Email</th>
+                                        <td>@Model.Meeting.ServiceEmail  </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">CreatedDate</th>
+                                        <td>@Model.Meeting.CreatedDate.ToFormat12h()  </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Last Modified Date</th>
+                                        <td>@Model.Meeting.ModifiedDate.ToFormat12h()  </td>
+                                    </tr>
+                                    @if (Model.Meeting.isFewParticpants == false)
+                                    {
+                                        <tr>
+                                            <th style="width:50%"> Barometer State </th>
+                                            <td>@ViewBag.StatesNumber</td>
+                                        </tr>
+                                    }
+
+                                    <tr>
+                                        <th style="width:50%"> Recurring Meeting </th>
+                                        <td>
+                                            @(ViewBag.RecurringObject != null? Html.Raw(Html.ActionLink("Y","Index",new { id=Model.Meeting.MeetingID.Replace("@google.com", "") }).ToHtmlString()):Html.Label("N"))
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%"> Recurring Type </th>
+                                        <td>@(ViewBag.RecurringObject != null?ViewBag.RecurringObject.Frequancy:"")</td>
+
+                                    </tr>
+
+                                    @if (Model.Meeting.isFewParticpants == false)
+                                    {
+                                        <tr>
+                                            <th style="width:50%"> Barometer Setting </th>
+                                            <td><img width="120" height="80" src="@ViewBag.BarImage" /></td>
+                                        </tr>
+ 
+                                            <tr>
+                                                <th style="width:50%"> Complete Wrapup </th>
+                                                <td>@ViewBag.MeetingCompletion % </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%"> People got What They Need </th>
+                                                <td>@ViewBag.WhatTheyNeed % </td>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:50%"> People Think Meeting Start on time </th>
+                                                <td>@ViewBag.overallMeetingStartOnTime % </td>
+                                            </tr>
+                                        
+                                    }
+                                    else 
+                                    {
+                                        @*<tr>
+                                            <th style="width:50%"> Meeting Advanced</th>
+                                            <td>@Model.VMeeting.MeetingAdvance %</td>
+                                        </tr>*@
+                                    }
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6">
+                            <ul class="stat-list">
+                                @*<li>
+                                        <h2 class="no-margins ">@ViewBag.submisstions Wrap Ups Completed</h2>
+                                        <small>Overall Meeting Score</small>
+                                        <div class="stat-percent">@Model.Meeting.MeetingOverAllScore % <i class="fa fa-level-up text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: @Model.Meeting.MeetingOverAllScore%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>*@
+
+                                @*<li>
+                                        <small>Overall Meeting Rating</small>
+                                        <div class="stat-percent">@ViewBag.ratimg  /5<i class="fa fa-bolt text-navy"></i></div>
+                                        <div class="progress progress-mini">
+                                            <div style="width: @ViewBag.ratimgPercentage%;" class="progress-bar"></div>
+                                        </div>
+                                    </li>*@
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    @Html.Action("ListMeetingParticipate")
+
+                    @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger pull-right" })*@
+                    <br />
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@Scripts.Render("~/bundles/jquery")
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        jQuery(".wrapup").click(function (e) {
+            e.preventDefault();
+
+            var jsonObj = { id: this.getAttribute("data-id") };
+            console.log(jsonObj);
+             $.ajax({
+                 url: "/Meeting/SendWrapUpToParticpant",
+                type: "Post",
+                 contentType: "application/json",
+                 data: JSON.stringify(jsonObj),
+                 success: function (result)
+                 {
+
+                     if (result) {
+                         Modals.Notify("Email has been sent successfully", function () {
+                                });
+                     }
+                     else {
+                         }
+
+                },
+                fail: function () { }
+            });
+        });
+
+
+    </script>
+}
+>>>>>>> cea7130 (Initial commit)

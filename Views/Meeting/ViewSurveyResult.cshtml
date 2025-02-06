@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model global::Portal.ViewModels.ParticipateViewModel
 @using Portal.Models
 @{
@@ -143,4 +144,151 @@
             </div>
         </div>
     </div>
+=======
+﻿@model global::Portal.ViewModels.ParticipateViewModel
+@using Portal.Models
+@{
+    ViewBag.Title = "View Survey Result";
+}
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>View</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("List", "Index")
+            </li>
+            <li class="active">
+                <strong> Survey Result</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>View Meeting</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @Html.ActionLink("Back to Meeting", "View", new { Id = ViewBag.MeetingId, Participate = Request.QueryString["Participate"] }, new { @class = "btn btn-danger pull-right" })
+
+                    @if (!string.IsNullOrEmpty(Request.QueryString["Participate"]))
+                    {
+                        @Html.ActionLink("Back to Participate", "View", "Participate", new { Id = Request.QueryString["Participate"] }, new { @class = "btn btn-danger pull-right mr-2" })
+                    }
+
+                    <div class="col-xs-6 ">
+                        <p class="lead">@ViewBag.MeetingSubject </p>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+
+
+                        </div>
+
+                        <div class="table-responsive ">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th style="width:50%">Participant Name :</th>
+                                        <td>@Model.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Participant Email :</th>
+                                        <td>@Model.Email</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Submitted Date :</th>
+                                        <td>@Model.SubmitDate</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Reminder Date :</th>
+                                        <td>@Model.ReminderDate</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">Network ID :</th>
+                                        <td>@Model.TypeFormNetworkId</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="width:50%">   Effective Raw Score : </th>
+                                        <td>@Model.MeetingScore</td>
+                                    </tr>
+                                    @*<tr>
+            <th style="width:50%">User Agent :</th>
+            <td>@Model.TypeFormUserAgent</td>
+        </tr>*@
+                                    @if (Model.Is1To1)
+                                    {
+                                        <tr>
+                                            <th style="width:50%">When was set up, did you know what kind of meeting it would be? :</th>
+                                            <td>@Model.DoYouKnowMeetingKindAnswer1to1</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">What kind of meeting was this?</th>
+                                            <td>@Model.MeetingKindAnswer1to1</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Did this meeting advance what you were meeting about? :</th>
+                                            <td>@Model.MeetingAdvanceAnswer1to1</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Do you have any questions that weren't answered at this meeting? :</th>
+                                            <td>@Model.QuestionsNotAnswerAnswer1to1</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">If you had a magic wand, what 1 - 3 things could have made this meeting better?</th>
+                                            <td>@Model.MissingAnswer</td>
+                                        </tr>
+                                    }
+
+                                    else
+                                    {
+
+                                        <tr>
+                                            <th style="width:50%">Did This Meeting Start on Time ?</th>
+                                            <td>@Model.MeetingStartOTimeAnswer</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">If you had a magic wand, what 1 - 3 things could have made this meeting better? :</th>
+                                            <td>@Model.MissingAnswer</td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <th style="width:50%">At the end of the meeting, how did you feel? :</th>
+                                            <td>@string.Join(" <br>", Model.MeetingFeelingAnswer)</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%">Contributions  :</th>
+                                            <td>@string.Join(" <br>", Model.VoteRefIds)</td>
+                                        </tr>
+                                        <tr>
+                                            @*<th style="width:50%">Did you get what you needed? :</th>*@
+                                            <th style="width:50%">Effective Raw Score :</th>
+                                            <td>@Model.MeetingScore</td>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:50%"> Effective Meaning :</th>
+                                            <td>@Model.EffectiveMeetingAnswer</td>
+                                        </tr>
+                                        @*<tr>
+                <th style="width:50%">How do you rate this meeting? :</th>
+                <td>@Model.Rating</td>
+            </tr>*@
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+>>>>>>> cea7130 (Initial commit)
 </div>

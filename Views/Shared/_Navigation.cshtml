@@ -1,0 +1,100 @@
+﻿@using Portal.Helpers
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <img alt="image" class="rounded-circle" src="@User.Identity.GetProfileImage()" style="width: 48px;height: 48px;" />
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="block m-t-xs font-bold">@User.Identity.GetFullName()</span>
+                        <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
+                        <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Inbox", "Mailbox")">Mailbox</a></li>
+                        <li class="dropdown-divider"></li>
+                        @using (Html.BeginForm("LogOff", "Account", new { Area = "" },
+FormMethod.Post, new { id = "logoutForm" }))
+                        {
+                            <li>
+                                @Html.AntiForgeryToken()
+                                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    <small>@Portal.Properties.Settings.Default.DefaultSiteName</small>
+                </div>
+            </li>
+
+            <li class="@Html.IsSelected(action: "Index",controller:"Home")">
+                <a href="@Url.Action("Index", "Home",new {area=""})">
+                    <i class="fa fa-dashboard"></i>
+                    <span class="nav-label">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="@Html.IsSelected(action: "Index",controller:"Meeting")">
+                <a href="@Url.Action("Index", "Meeting",new {area="" , id=""})">
+                    <i class="fa fa-meetup"></i>
+                    <span class="nav-label">Meetings</span>
+
+                </a>
+            </li>
+
+            @*<li class="@Html.IsSelected(action: "Index",controller:"Meeting")">
+                <a href="@Url.Action("Index", "Meeting",new {area="" , id=""})">
+                    <i class="fa fa-meetup"></i>
+                    <span class="nav-label">Recurring Meetings</span>
+
+                </a>
+            </li>*@
+
+            <li class="@Html.IsSelected(action: "Index",controller:"Participate")">
+                <a href="@Url.Action("Index", "Participate",new {area=""})">
+                    <i class="fa fa-users"></i>
+                    <span class="nav-label">Participants</span>
+
+                </a>
+            </li>
+
+
+            @if (Html.IsShow(new string[] { "Users", "Users", "Permissions" }))
+            {
+                <li class="@Html.IsSelected(area: "Auth")">
+                    <a href="#">
+                        <i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.Users">
+                            Auth
+                        </span> <span class="fa arrow"></span>
+                    </a>
+                    <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Users", cssClass: "in")">
+                        @if (User.IsInRole("UsersList"))
+                        {
+                            <li class="@Html.IsSelected(action: "Index", controller: "Users", area: "Auth")"><a href="@Url.Action("Index", "Users", new { area = "Auth" })">Users</a></li>
+                        }
+                        @if (User.IsInRole("RolesList"))
+                        {
+                            <li class="@Html.IsSelected(action: "Index", controller: "Users", area: "Auth")"><a href="@Url.Action("Index", "Roles", new { area = "Auth" })">Roles</a></li>
+                        }
+                        @if (User.IsInRole("PermissionsList"))
+                        {
+                            <li class="@Html.IsSelected(action: "Index", controller: "Permissions", area: "Auth")"><a href="@Url.Action("Index", "Permissions", new { area = "Auth" })">Permissions</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            @*<li class="@Html.IsSelected(controller: "Dashboard")">
+            <a href="@Url.Action("Dashboard_1", "Dashboard")"><i class="fa fa-th-large"></i> <span class="nav-label" data-i18n="nav.dashboard">Dashboard</span> <span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level collapse @Html.IsSelected(controller: "Dashboard", cssClass: "in")">
+                <li class="@Html.IsSelected(action: "Dashboard_1")"><a href="@Url.Action("Dashboard_1", "Dashboard")">Dashboard v.1</a></li>
+                <li class="@Html.IsSelected(action: "Dashboard_2")"><a href="@Url.Action("Dashboard_2", "Dashboard")">Dashboard v.2</a></li>
+                <li class="@Html.IsSelected(action: "Dashboard_3")"><a href="@Url.Action("Dashboard_3", "Dashboard")">Dashboard v.3</a></li>
+                <li class="@Html.IsSelected(action: "Dashboard_4_1")"><a href="@Url.Action("Dashboard_4_1", "Dashboard")">Dashboard v.4</a></li>
+                <li class="@Html.IsSelected(action: "Dashboard_5")"><a href="@Url.Action("Dashboard_5", "Dashboard")">Dashboard v.5</a></li>
+            </ul>
+        </li>*@
+        </ul>
+    </div>
+</nav>

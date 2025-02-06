@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model IEnumerable<Models.Meeting>
 @using Portal.Helpers
 
@@ -32,3 +33,39 @@
 
 
 
+=======
+﻿@model IEnumerable<Models.Meeting>
+@using Portal.Helpers
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Meeting</h5>
+					
+                </div>
+                <div class="ibox-content">
+                    @Html.WebGridFor(Model, new List<WebGridColumn>
+                {
+                    new WebGridColumn {Header = "ID", ColumnName = "Id"},
+                    new WebGridColumn {Header = "Subject", ColumnName = "Subject"},
+                     new WebGridColumn {Header = "Start Date", ColumnName = "StartDate"},
+                      
+                     new WebGridColumn {Header = "End Date", ColumnName = "EndDate"},
+                   
+
+                }, enableAjaxModal: false, allowView: true,
+                    allowEdit: false,
+                    allowDelete: false,viewAction:"ViewMeeting")
+
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+
+
+>>>>>>> cea7130 (Initial commit)

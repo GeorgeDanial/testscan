@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model Portal.ViewModels.LoginViewModel
 @{
     ViewBag.Title = @Portal.Properties.Settings.Default.DefaultSiteName + " | Login";
@@ -84,3 +85,91 @@
 </body>
 
 </html>
+=======
+﻿@model Portal.ViewModels.LoginViewModel
+@{
+    ViewBag.Title = @Portal.Properties.Settings.Default.DefaultSiteName + " | Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet">
+    <link href="~/Fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+
+    <link href="~/Content/animate.css" rel="stylesheet">
+    <link href="~/Content/style.css" rel="stylesheet">
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div>
+            <div>
+                <img src="~/logo.png" width="300"  />
+            </div>
+          
+            <p>
+            </p>
+            <p>Login in</p>
+
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger alert-dismissable" })
+
+            <div class="m-t">
+                @using (Html.BeginForm("Login", "Account", "POST"))
+                {
+                    @Html.AntiForgeryToken()
+                    
+                    <div class="form-group">
+                        @Html.EditorFor(model => model.UserNameOrEmail,
+                            new
+                            {
+                                htmlAttributes =
+                            new
+                            {
+                                @class = "form-control",
+                                placeholder = "Username / Email",
+                                required = "required"
+                            }
+                            })
+                    </div>
+                    <div class="form-group">
+                        @Html.PasswordFor(model => model.Password, new
+                   {
+                       @class = "form-control",
+                       placeholder = "Password",
+                       @required = "required"
+                   })
+                    </div>
+                    <div class="form-group">
+                        @Html.CheckBoxFor(model => model.RememberMe, new
+                       {
+                           @class = "checkbox-primary checkbox-circle"
+                       })
+                        <label> Remember me?</label>
+                    </div>
+                    <input type="submit" class="btn btn-primary block full-width m-b" value="Login" />
+                }
+
+                <a href="#"><small>Forgot password?</small></a>
+            </div>
+            <p class="m-t">
+                <small>
+                    All Copy Rights Reserved To @Portal.Properties.Settings.Default.DefaultSiteName &copy;
+                    @DateTime.Now.Year | @(DateTime.Now.Year + 1 )
+                </small> Developed To You By
+                <a href="http://effvision.com/">Effvision</a>
+            </p>
+        </div>
+    </div>
+
+</body>
+
+</html>
+>>>>>>> cea7130 (Initial commit)

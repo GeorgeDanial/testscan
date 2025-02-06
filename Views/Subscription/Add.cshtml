@@ -1,0 +1,76 @@
+﻿@model Models.Participate
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_PublicSubscription.cshtml";
+}
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h4>Subsripe To Stretch</h4>
+                </div>
+                <div class="ibox-content">
+                    @Html.Hidden("eid", ViewContext.RequestContext.HttpContext.Request.QueryString["id"])
+                    <div class="col-xs-6 ">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                                <p>Thank you @Model.Name  for Using STRETCH in your meetings  Click on Subscribe Button </p>
+                                <button id="subbtn" class=" btn btn-primary">Subscripe</button>
+                            }
+                            else
+                            {
+                                <p> Sorry You are not a member of STRETCH <br /> if you need to subscribe to STRETCH please send an Email to <strong>@(Portals.Models.Configuration.Instance["EMAIL"]) </strong><br /> and Write 'subscribe' in subject </p>
+
+                            }
+                        </div>
+
+                        <p id="successlbl" class="cg-notify-message"></p>
+                        @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger pull-right" })*@
+
+
+                        <div class="col-lg-6">
+                            <ul class="stat-list">
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $("#subbtn").click(function () {
+
+                 $.ajax({
+                    url: "./subscripe",
+                    type: "Post",
+                     contentType: "application/json",
+                     data: JSON.stringify(@Html.Raw(Json.Encode(Model))),
+                     success: function (result)
+                     {
+
+                         if (result) {
+                             $("#successlbl").html("Subscribed Successfully") ;
+                         }
+                         else {
+                             $("#successlbl").html("Error while to Subscribe to Stretch you may exist or have validation error ");
+                         }
+
+                    },
+                    fail: function () { }
+                });
+            });
+
+    </script>
+}

@@ -1,0 +1,144 @@
+﻿
+
+<div class="row">
+
+    <div class="col-sm-12">
+
+
+    </div>
+
+    <div class="col-sm-12">
+        <div data-bind="if: GridColumns.Allowed">
+
+
+            <div class="modal" tabindex="-1" role="dialog" data-bind="attr: { id: 'modal_' + GridColumns.SettingsId }">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        @*<div class="modal-header">
+                                <h5 class="modal-title">Modal title</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>*@
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable no-footer">
+                                        <tbody data-bind="foreach: OrderdGridColumns">
+                                            <tr>
+                                                <td data-bind="text: $index() + 1"></td>
+
+                                                <td data-bind="text: Header"></td>
+
+                                                <td>
+                                                    <!--ko if: $index() != 0-->
+                                                    <a style="font-size: large;" title="Up" class="fa fa-caret-square-o-up" data-bind="click: function() { var indx = $index(); $parent.GridColumns()[indx - 1].ViewOrder(indx); ViewOrder(indx - 1); }"></a>
+                                                    <!--/ko-->
+                                                    <!--ko if: $index() < $parent.GridColumns.Count() - 1-->
+                                                    <a style="font-size: large;" title="Down" class="fa fa-caret-square-o-down" data-bind="click: function() { var indx = $index(); $parent.GridColumns()[indx + 1].ViewOrder(indx); ViewOrder(indx + 1); }"></a>
+                                                    <!--/ko-->
+
+                                                    <a style="font-size: large;" title="Remove" class="fa fa-share" data-bind="click: function() {if($parent.GridColumns()[$index()].Name!='Id'){ ViewOrder(-1); $parent.GridColumns.ResetOrder() }}"></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <table class="table table-striped table-bordered table-hover dataTables-example dataTable no-footer">
+                                        <tbody data-bind="foreach: UnOrderdGridColumns">
+                                            <tr>
+                                                <td data-bind="text: $index() + 1"></td>
+
+                                                <td data-bind="text: Header"></td>
+
+                                                <td>
+                                                    <a style="font-size: large;" title="Restore" class="fa fa-reply" data-bind="click: function() { ViewOrder($parent.GridColumns.Count() +1); }"></a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="pull-right btn btn-default" data-toggle="modal" data-bind="attr: { 'data-target': '#modal_' + GridColumns.SettingsId },if: GridColumns.Allowed">
+                <img width="14" height="14" src="~/Images/ColumnselectionButton.png" />
+            </button>
+            <a class="exportbtn disabled pull-right btn btn-default" data-bind="click: Export,if: GridColumns.Allowed">
+                <img width="14" height="14" src="~/Images/Exportbutton.png" />
+            </a>
+        </div>
+        <select class="form-control text-box col-lg-1 pull-right" data-bind="value: SC.RowsPerPage">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </select>
+        <label class="pull-right">Rows Per Page</label>
+    </div>
+    <div class="col-sm-12">
+        <table class="table table-striped table-bordered table-hover dataTables-example dataTable no-footer" id="webGrid" data-swhgajax="true" data-swhgcontainer="webGrid" data-swhgcallback="" role="grid" aria-describedby="webGrid_info">
+            <thead>
+                <tr class="text-center grid-header" role="row" data-bind="foreach: CurrentGridColumns">
+
+                    <!--ko if: IsSort-->
+                    <th data-bind="click: function() { $parent.SwitchSort(Name); }, attr: { class: $parent.SC.SortColumn() == Name? ('sorting' + ($parent.SC.SortAsc()? '_asc' : '_desc')) : 'sorting' }" scope="col">
+                        <!--ko text: Header--><!--/ko-->
+                    </th>
+                    <!--/ko-->
+                    <!--ko ifnot: IsSort-->
+                    <th data-bind="">
+                        <!--ko text: Header--><!--/ko-->
+                    </th>
+                    <!--/ko-->
+                </tr>
+            </thead>
+
+            <tbody data-bind="foreach: { data: List, as: 'row' }">
+
+                <tr role="row" data-bind="css: { odd: (($index() %2) == 0), even: (($index() %2) == 1) }, foreach: { data: $parent.CurrentGridColumns, as: 'column' }">
+                    <!--ko if: column.Type && column.Type.toLowerCase() == 'template'-->
+                    <td data-bind="template: { name: column.Name, data: row }"></td>
+                    <!--/ko-->
+                    <!--ko ifnot: column.Type && column.Type.toLowerCase() == 'template'-->
+                    <td data-bind="DynamicValue: row[column.Name], Type: column.Type"></td>
+                    <!--/ko-->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    @*
+        <div class="col-sm-12 col-md-5">
+            <div class="dataTables_info" id="webGrid_info" role="status" aria-live="polite">
+                Showing ko text: (PageIndex() - 1)/ko to ko text: TotalRowCount/ko of ko text: TotalRowCount/ko entries
+            </div>
+        </div>
+    *@
+    <div class="col-sm-12 col-md-7">
+        <div class="dataTables_paginate paging_simple_numbers" id="webGrid_paginate">
+            <ul class="pagination">
+                <li class="paginate_button page-item previous" data-bind="css: { disabled: SC.PageIndex() == 1 }"><a data-bind="click: function(){ GoToPage(1); }" href="#" aria-controls="webGrid" tabindex="0" class="page-link">First</a></li>
+
+                <!--ko foreach: List.Paging-->
+                <li class="paginate_button page-item" data-bind="css: { active: $data == $parent.SC.PageIndex() }"><a data-bind="text: $data, click: function(){ $parent.GoToPage($data); }" href="#" aria-controls="webGrid" tabindex="0" class="page-link"></a></li>
+                <!--/ko-->
+
+                <li class="paginate_button page-item next" data-bind="css: { disabled: SC.PageIndex() == SC.TotalPages() }"><a data-bind="click: function(){ GoToPage(SC.TotalPages()); }" href="#" aria-controls="webGrid" tabindex="0" class="page-link">Last</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

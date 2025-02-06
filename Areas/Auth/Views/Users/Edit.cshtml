@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@using Portal.Helpers
 @model Portal.Areas.Auth.ViewModels.NewUserViewModel
 
@@ -233,3 +234,240 @@
         });
     </script>
 }
+=======
+﻿@using Portal.Helpers
+@model Portal.Areas.Auth.ViewModels.NewUserViewModel
+
+@{
+    ViewBag.Title = "View User";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>@ViewBag.Title</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Home", new {Area = ""})">Home</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="@Url.Action("Index", "Users", new {Area = "Auth"})">Users</a>
+            </li>
+            <li class="active breadcrumb-item">
+                <strong>@ViewBag.Title</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>@ViewBag.Title</h5>
+                </div>
+                @using (Html.BeginForm("Edit", "Users", FormMethod.Post,
+                    new { enctype = "multipart/form-data" }))
+                {
+                    <div class="ibox-content">
+
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Id)
+
+                        <div class="row">
+                            <div class="col-sm-4 b-r">
+                                <div class="dropzone" id="dropzoneForm" style="background:url('@Model.ProfilePicture');background-repeat: no-repeat;background-size: contain;">
+                                    <div class="fallback">
+                                    </div>
+                                </div>
+
+                                <input name="file" type="file" data-toggle="tooltip" data-placement="top"
+                                       title="@Html.DescriptionFor(c => c.ProfilePicture)" />
+                                <hr />
+                                <div class="form-group">
+                                    <label class="font-normal">Roles</label>
+                                    <div>
+                                        <select data-placeholder="Please Choose Roles" data-toggle="tooltip" name="checkedRoles"
+                                                data-placement="top" title="@Html.DescriptionFor(c => c.Roles)"
+                                                class="chosen-select" multiple="multiple">
+                                            @foreach (var item in Model.Roles)
+                                            {
+                                                <option name="checkedRoles" value="@item.Id" @(Model.UsedRoles != null && ((IList<int>)Model.UsedRoles).Contains(item.Id) ? "selected" : "")>@item.Name</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <div class="">
+                                        @Html.LabelFor(model => model.IsActive, "Is Active User?")
+                                        @Html.CheckBoxFor(model => model.IsActive, new
+                                   {
+                                       @class = "checkbox checkbox-circle",
+                                       data_toggle = "tooltip",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.IsActive)
+                                   })
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="">
+                                        @Html.LabelFor(model => model.EnableTwoFactorAuthentication, "Enable Two Factor Authentication?")
+                                        @Html.CheckBoxFor(model => model.EnableTwoFactorAuthentication, new
+                                   {
+                                       @class = "checkbox checkbox-circle",
+                                       data_toggle = "tooltip",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.EnableTwoFactorAuthentication)
+                                   })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                <div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.FirstName, "First Name")
+                                        @Html.EditorFor(model => model.FirstName, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           @class = "form-control",
+                                           required = "required",
+                                           data_toggle = "tooltip",
+                                           data_placement = "top",
+                                           title = Html.DescriptionFor(model => model.FirstName)
+                                       }
+                                   })
+                                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.LastName, "Last Name")
+                                        @Html.EditorFor(model => model.LastName, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           @class = "form-control",
+                                           required = "required",
+                                           data_toggle = "tooltip",
+                                           data_placement = "top",
+                                           title = Html.DescriptionFor(model => model.LastName)
+                                       }
+                                   })
+                                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.UserName, "Username")
+                                        @Html.EditorFor(model => model.UserName, new
+                                   {
+                                       htmlAttributes = new
+                                       {
+                                           @class = "form-control",
+                                           required = "required",
+                                           data_toggle = "tooltip",
+                                           data_placement = "top",
+                                           title = Html.DescriptionFor(model => model.UserName)
+                                       }
+                                   })
+                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Password, "Password")
+                                        @Html.TextBoxFor(model => model.Password, new
+                                   {
+                                       @class = "form-control",
+                                       data_toggle = "tooltip",
+                                       @type = "password",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.Password)
+                                   })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfirmPassword, "Confirm Password")
+                                        @Html.TextBoxFor(model => model.ConfirmPassword, new
+                                   {
+                                       @class = "form-control",
+                                       data_toggle = "tooltip",
+                                       @type = "password",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.ConfirmPassword)
+                                   })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Email, "Email")
+                                        @Html.EditorFor(model => model.Email, new
+                                   {
+                                       @class = "form-control",
+                                       required = "required",
+                                       data_toggle = "tooltip",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.Email)
+                                   })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.ConfirmEmailAddress, "Confirm Email")
+                                        @Html.EditorFor(model => model.ConfirmEmailAddress, new
+                                   {
+                                       @class = "form-control",
+                                       required = "required",
+                                       data_toggle = "tooltip",
+                                       data_placement = "top",
+                                       title = Html.DescriptionFor(model => model.ConfirmEmailAddress)
+                                   })
+                                        @Html.ValidationMessageFor(model => model.ConfirmEmailAddress, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ibox-footer">
+                        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger" })
+                        <input type="submit" value="Save Changes" class="btn btn-primary" />
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Styles
+{
+    @Styles.Render("~/plugins/awesomeCheckboxStyles")
+    @Styles.Render("~/Content/plugins/iCheck/iCheckStyles")
+    @Styles.Render("~/Content/plugins/chosen/chosenStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/iCheck")
+    @Scripts.Render("~/plugins/chosen")
+
+
+    <script>
+        $(document).ready(function () {
+
+            $('.chosen-select').chosen({ width: "100%" });
+            $('.checkbox').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+
+        });
+    </script>
+}
+>>>>>>> cea7130 (Initial commit)

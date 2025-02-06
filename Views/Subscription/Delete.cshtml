@@ -1,0 +1,215 @@
+﻿@model Models.Participate
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_PublicSubscription.cshtml";
+}
+<style>
+
+    /* Inline #7 | https://localhost:44326/Subscription/index?id=44dT5P8mbte8cp/7e+g2uWS6QR7jMXf/992gfLnUSexDDYEOQWrgwC4HKJ0KCm42 */
+
+    #page-wrapper {
+        max-width: 1170px;
+        margin: auto;
+    }
+
+    .float-e-margins .btn {
+        margin-bottom: 5px;
+        margin-top: 20px;
+        min-width: 100px;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+    #page-wrapper h2 {
+        padding-left: 10px;
+    }
+
+    .col-md-12.col-sm-12.col-xs-12 {
+    }
+
+        .col-md-12.col-sm-12.col-xs-12 img {
+            margin: auto;
+            width: 40%;
+            display: block;
+            padding: 20px 0 15px;
+        }
+
+
+
+    form > div {
+        display: flex;
+        align-items: start;
+    }
+
+        form > div > label {
+            max-width: 60%;
+        }
+
+        form > div > input {
+            margin-top: 4px;
+            margin-right: 10px;
+        }
+
+    .col-md-12.col-sm-12.col-xs-12 > p {
+        max-width: 75%;
+    }
+
+    .wrapper.wrapper-content.animated.fadeInRight {
+    }
+
+    .footer {
+        margin: 0 25px;
+    }
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Unsubscribe</h5>
+                </div>
+                <div class="ibox-content">
+                   
+                    <div class="col-xs-6 ">
+                        @Html.Hidden("key", ViewContext.RequestContext.HttpContext.Request.QueryString["key"])
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <a href="https://www.stretchmeetings.com/"> <img src="https://stretchweb.azurewebsites.net/images/logo.png" /></a>
+
+
+                            @if (ViewBag.Type == 1)
+                            {
+
+                                <div id="all_sub">
+                                    <p>Thank you @Model.Name     </p>
+
+                                    <p>
+                                        Click below to unsubscribe from STRETCH Reminder Notifications (such as “Reminder” to complete the STRETCH Wrap-Up for a meeting).
+                                    </p>
+
+
+                                    <button id="unsubpreferancebtn" data-id="notifications" class=" btn btn-primary">Unsubscribe</button>
+                                </div>
+                            }
+                            else if (ViewBag.Type == 2)
+                            {
+                                <div id="all_sub">
+
+                                    <p>Thank you @Model.Name  for Using STRETCH in your meetings    </p>
+                                    <p>
+                                        Unsubscribe from the STRETCH service but keep your data in case you want to resubscribe in the future. If you decide to keep your data, it will, of course, remain subject to our Privacy Policy.
+                                    </p>
+                                    <button id="unsubpreferancebtn" data-id="warapup_report" class=" btn btn-primary">Unsubscribe</button>
+                                </div>
+                            }
+                            else if (ViewBag.Type == 3)
+                            {
+                        <div id="delete">
+                            <p>Thank you @Model.Name for Using STRETCH in your meetings  </p>
+                            <p>
+                                Unsubscribe from the STRETCH service and delete all your data. If you decide that you want to resubscribe, it will be as if you were a new user with no meetings associated with you.
+                            </p>
+                            <strong><p>You will be no longer on STRETCH and your data will deleted</p></strong>
+                            <button id="unsubbtn" class=" btn btn-primary">Unsubscribe</button>
+                        </div>
+                            }
+                            <div id="sucess" class="d-none">
+                                <p></p>
+                            </div>
+                            <div id="error" class="d-none">
+                                <p>Error while Processing the Unsubscribe</p>
+                            </div>
+                            @*<p>   if you need to subscribe to STRETCH please send an Email to <strong>@(Portals.Models.ManageData.GetSettingValue("EMAIL")) </strong><br /> and Write 'subscribe' in subject </p>
+        <p>Or visit <a href="/Subscription/Add?id=@ViewContext.RequestContext.HttpContext.Request.QueryString["key"]">STRETCH Subscribtion</a>"</p>
+        </div>*@
+
+
+
+                            <p id="successlbl" class="cg-notify-message"></p>
+                            @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger pull-right" })*@
+
+
+                            <div class="col-lg-6">
+                                <ul class="stat-list">
+                                </ul>
+                            </div>
+                        </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+      
+        $("#unsubbtn").click(function () {
+          
+                 $.ajax({
+                    url: "./Unsubscripe",
+                    type: "Post",
+                    contentType: "application/json",
+                    data: JSON.stringify({ key : $("#key").val() }),
+                     success: function (result)
+                     {
+
+                         if (result) {
+                             $("#successlbl").html("UnSubscribed Successfully") ;
+                         }
+                         else {
+                             $("#successlbl").html("Validation Error while unsubscribe from stretch you may not Registered yet ");
+
+                         }
+                        
+                    },
+                    fail: function () { }
+                });
+            });
+
+
+        $("#unsubpreferancebtn").click(function () {
+            var jsonObj;
+            if ($(this).attr("data-id") == "notifications") {
+                jsonObj = {
+
+                    key: $("#key").val(), WrapUp: true, Reminder: false, ReportNotice: false, Report: true, isSubscribe: false,
+
+
+                }
+            }
+            else {
+                jsonObj = {
+                    key: $("#key").val(), WrapUp: false, Reminder: false, ReportNotice: false, Report: false, isSubscribe: false,
+                }
+            }
+
+
+            $.ajax({
+
+                url: "./EditPrefrance",
+                type: "Post",
+                contentType: "application/json",
+                data: JSON.stringify(jsonObj),
+                success: function (result) {
+
+                    if (result.state) {
+                        $("#sucess").removeClass("d-none");
+                        $("#sucess").html('<p>' + result.message + '</p>');
+                    }
+                    else {
+                        $("#error").removeClass("d-none");
+
+                    }
+
+                    $("#all_sub").addClass("d-none");
+                },
+                fail: function () { }
+            });
+        });
+
+    </script>
+    }

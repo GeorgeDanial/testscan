@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model IEnumerable<Portal.ViewModels.ParticipateViewModel>
 @using Portal.Helpers
 
@@ -52,3 +53,59 @@ allowDelete: false)
     </div>
 </div>
 
+=======
+﻿@model IEnumerable<Portal.ViewModels.ParticipateViewModel>
+@using Portal.Helpers
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>List of Participants</h5>
+
+                </div>
+                <div class="ibox-tools">
+                    <a class="btn btn-info btn-primary" data-bind="" href="@Url.Action("ExportMeetingDetails",new {id=ViewContext.RouteData.Values["Id"] })">
+                        <i class="fa fa-cloud-upload">Export</i>
+                    </a>
+                </div>
+                <div class="ibox-content">
+                    @Html.WebGridFor(Model, new List<WebGridColumn>
+                {
+                    new WebGridColumn {Header = "ID", ColumnName = "Id",Format=@<div><a href="/Meeting/ViewSurveyResult/@item.ID">@Html.Raw(item.ID)</a></div>},
+new WebGridColumn {Header = "Participant Email", ColumnName = "Email"},
+new WebGridColumn {Header = "Participant Name", ColumnName = "Name"},
+
+new WebGridColumn {Header = "Meeting Satisfaction", ColumnName = "MeetingFeelingAnswer"},
+new WebGridColumn {Header = "Submit Date", ColumnName = "SubmitDate" },
+new WebGridColumn {Header = "Recognition", ColumnName = "VoteResult"},
+new WebGridColumn {Header = "Recognition Streak", ColumnName = "RecognationStreaks"},
+new WebGridColumn {Header = "Role", ColumnName = "ParticpantRole"},
+new WebGridColumn {Header = "Improve Meeting", ColumnName = "MissingAnswer",Format= @<text><p>@Html.Raw(item.MissingAnswer?.Replace("\n", "</br>"))</p></text>
+
+},
+
+new WebGridColumn{ Header = "Crtl", Format = (item) => { if (item.Resend)
+{
+       
+return Html.Raw(string.Format("<a href='#'class='wrapup btn btn-default' data-id='{0}'>ReSend Wrap-Up</a>",item.ID));
+}
+else
+{
+return Html.Raw(string.Format("<button class='btn btn-default' disabled data-id='{0}'>ReSend Wrap-Up</button>",item.ID));
+}}
+}
+
+}, enableAjaxModal: false, allowView: false,
+allowEdit: false,
+allowDelete: false)
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+>>>>>>> cea7130 (Initial commit)

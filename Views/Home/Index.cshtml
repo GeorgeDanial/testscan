@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@{
     ViewBag.Title = "Home Page";
 }
@@ -129,4 +130,137 @@
     </script>
 
 
+=======
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/Scripts/jquery-2.1.1.min.js")
+<style>
+    .owl-controls .owl-page, .owl-controls .owl-buttons div {
+        cursor: text;
+        display: inline-block;
+        /*margin-right: 5px;*/
+    }
+
+    .owl-controls .owl-page, .owl-controls {
+        text-align: center;
+    }
+
+    .owl-buttons {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        top: -20px;
+    }
+
+    .owl-prev {
+        margin-left: -17px;
+    }
+
+    .owl-pagination {
+        display: none;
+    }
+</style>
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="col-md-12" id="sortable-view">
+        <div class="row">
+
+            @Html.Partial("Widgets/StretchMeetingCount")
+            @Html.Partial("Widgets/StretchWrapUpReportCount")
+            @Html.Partial("Widgets/StretchOverallWrapUpAvarageComplationRate")
+            @Html.Partial("Widgets/StretchAvarageNumberofMeetingParticpant")
+
+        </div>
+        <div class="row">
+
+            @Html.Partial("Widgets/StretchTopOrganizer")
+            @Html.Partial("Widgets/StretchTopThumbsUp")
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/Scripts/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" async="async" crossorigin="use-credentials" defer>
+            $(document).ready(function() {
+                $.post('@Url.Action("StretchMeetingCount", "Home")',
+                    null,
+                    function (data)
+                    {
+
+                        document.getElementById("lblmeetingsCount").innerHTML = data;
+                    });
+                // wrapup count
+                $.post('@Url.Action("StretchWrapUpReportCount", "Home")',
+                    null,
+                    function (data)
+                    {
+
+                        document.getElementById("lblwrapupCount").innerHTML = data;
+                    });
+
+                $.post('@Url.Action("StretchOverallWrapUpAvarageComplationRate", "Home")',
+                    null,
+                    function (data)
+                    {
+                        document.getElementById("lblwrapupRate").innerHTML = data+"%";
+                    });
+
+          $.post('@Url.Action("StretchAvarageNumberofMeetingParticpant", "Home")',
+                    null,
+                    function (data)
+                    {
+                        document.getElementById("lblavgmeetingparticpant").innerHTML = data;
+                    });
+
+                //Top Organiser
+          $.post('@Url.Action("StretchTopOrgniser", "Home")',
+            null,
+            function (data) {
+                var row = "";
+                var count = 1;
+                $.each(data,
+                    function (index, item) {
+                        row += "<tr><td>" + item.Participate + "</td>"
+                            + "<td> " + count++ + "</td>"
+                            + "<td>" + item.Name + "</td>"
+                            +"<td>" + item.Value + "</td>"
+                            + "</tr>";
+                    });
+                $("#StretchTopOrganiser").html(row);
+
+              });
+
+
+
+
+         $.post('@Url.Action("StretchTopThumbsUp", "Home")',
+            null,
+            function (data) {
+                var row = "";
+                var count = 1;
+                $.each(data,
+                    function (index, item) {
+                        row += "<tr><td>" + item.Participate + "</td>"
+                            + "<td> " + count++ + "</td>"
+                            + "<td>" + item.Name + "</td>"
+                            + "<td>" + item.Value + "</td>"
+                            + "</tr>";
+                    });
+                $("#StretchTopThumbsUp").html(row);
+
+
+
+            });
+       });
+    </script>
+
+
+>>>>>>> cea7130 (Initial commit)
 }

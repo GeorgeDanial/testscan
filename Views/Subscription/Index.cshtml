@@ -1,0 +1,232 @@
+﻿@model Models.Participate
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PublicSubscription.cshtml";
+    bool chkPreferance = false;
+    if(ViewBag.type != null && ViewBag.type == "1"&&ViewBag.pref==true)
+    {
+        chkPreferance = true;
+    }
+   
+
+
+}
+<style>
+
+    /* Inline #7 | https://localhost:44326/Subscription/index?id=44dT5P8mbte8cp/7e+g2uWS6QR7jMXf/992gfLnUSexDDYEOQWrgwC4HKJ0KCm42 */
+
+    #page-wrapper {
+        max-width: 1170px;
+        margin: auto;
+    }
+    .float-e-margins .btn {
+        margin-bottom: 5px;
+        margin-top: 20px;
+        min-width: 100px;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+        #page-wrapper h2 {
+            padding-left: 10px;
+        }
+
+    .col-md-12.col-sm-12.col-xs-12 {
+    }
+
+        .col-md-12.col-sm-12.col-xs-12 img {
+            margin: auto;
+            width:40%;
+            display: block;
+            padding: 20px 0 15px;
+        }
+
+
+
+            form > div {
+                display: flex;
+                align-items: start;
+            }
+
+            form > div > label {
+                max-width: 60%;
+            }
+
+            form > div > input {
+                margin-top: 4px;
+                margin-right: 10px;
+            }
+
+    .col-md-12.col-sm-12.col-xs-12 > p {
+        max-width: 75%;
+    }
+
+    .wrapper.wrapper-content.animated.fadeInRight {
+    }
+
+    .footer {
+        margin: 0 25px;
+    }
+
+</style>
+
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <!--<div class="ibox-title">
+                    <h4>unSubsribe To Stretch</h4>
+                </div>-->
+                <div class="ibox-content">
+                    <div class="col-xs-6 ">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            @if (!string.IsNullOrEmpty(Model.Email))
+                            {
+                            <a href="https://www.stretchmeetings.com/"> <img src="https://stretchweb.azurewebsites.net/images/logo.png" /></a>
+                                <br />
+                                @*<p>Thank you @Model.Name  for Using STRETCH in your meetings Please select choice and Click on Apply Button to proceed  </p>*@
+                        <h3>Need to change your preferences?</h3> 
+                        <p >
+
+                            We respect your preferences regarding the types of communications you receive from STRETCH. If you’d like to change what you receive related to your meetings, you can manage your preferences below:
+                        </p>
+                        <form action="@Url.Action("Index")" method="post">
+                            @Html.Hidden("key", ViewContext.RequestContext.HttpContext.Request.QueryString["id"])
+
+                            <p>Please select your unsubscribe type :</p>
+                            <div>
+                                <input type="radio" id="T1" data-container="notification" name="unsubscripe_radio" value="T1" @((ViewBag.type != null && ViewBag.type == "1" )||ViewBag.pref==true ? "checked" : "") )>
+                                <label for="T1">
+                                    Unsubscribe from STRETCH Reminder Notifications (such as, “Reminder” to complete the STRETCH Wrap-Up for a meeting).
+                                </label>
+                                @if (ViewBag.type != null && ViewBag.type == "1")
+                                {
+                                <a class="resubbtn" id="notification" href="#">Resubscribe</a>
+                                }
+
+                            </div>
+                            <div>
+                                <input type="radio" data-container="wrapup" @(((ViewBag.type != null && ViewBag.type == "2") || ViewBag.type == null&&ViewBag.pref==false) ? "checked" : "") id="T2" name="unsubscripe_radio" value="T2">
+                                <label for="T2">
+                                    Unsubscribe from the STRETCH service but keep your data in case you want to resubscribe in the future. If you decide to keep your data, it will, of course, remain subject to our Privacy Policy.
+                                </label>
+                                @if (ViewBag.type != null && ViewBag.type == "2")
+                                {
+                            <a class="resubbtn" id="wrapup" href="#">Resubscribe</a>
+                                }
+                            </div>
+
+                            
+                            <div>
+                                <input type="radio" id="T3" name="unsubscripe_radio" value="T3">
+                                <label for="T3">
+                                    Unsubscribe from the STRETCH service and delete all your data. If you decide that you want to resubscribe, it will be as if you were a new user with no meetings associated with you.
+
+                                </label>
+                            </div>
+
+                            <input type="submit" class=" btn btn-primary" value="Apply">
+                        </form>
+
+                            }
+                            else
+                            {
+                                <p> Sorry You are not a member of STRETCH <br /> if you need to subscribe to STRETCH please send an Email to <strong>@(Portals.Models.Configuration.Instance["EMAIL"]) </strong><br /> and Write 'subscribe' in subject </p>
+
+                            }
+                        </div>
+
+                        <p id="successlbl" class="cg-notify-message"></p>
+                        @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger pull-right" })*@
+
+
+                        <div class="col-lg-6">
+                            <ul class="stat-list">
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $("#sub").click(function () {
+
+                 $.ajax({
+                    url: "./subscripe",
+                    type: "Post",
+                     contentType: "application/json",
+                     data: JSON.stringify(@Html.Raw(Json.Encode(Model))),
+                     success: function (result)
+                     {
+
+                         if (result) {
+                             $("#successlbl").html("Subscribed Successfully") ;
+                         }
+                         else {
+                             $("#successlbl").html("Error while to Subscribe to Stretch you may exist or have validation error ");
+                         }
+
+                    },
+                    fail: function () { }
+                });
+            });
+        $(".resubbtn").click(function (e) {
+            e.preventDefault();
+            var target = $(this);
+            var jsonObj;
+            if ($(this).attr("data-id") == "notifications") {
+                jsonObj = {
+
+                    key: $("#key").val(), WrapUp: true, Reminder: true, ReportNotice: true, Report: true, isSubscribe:true,
+
+
+                }
+            }
+            else {
+                jsonObj = {
+                    key: $("#key").val(), WrapUp: true, Reminder: true, ReportNotice: true, Report: true, isSubscribe: true,
+                }
+            }
+
+
+            $.ajax({
+
+                url: "./EditPrefrance",
+                type: "Post",
+                contentType: "application/json",
+                data: JSON.stringify(jsonObj),
+                success: function (result) {
+
+                    if (result.state) {
+                        //$("#sucess").removeClass("d-none");
+                        //$("#sucess").html('<p>You are subscriped again </p>');
+                        target.addClass("d-none");
+                        target.closest("div").find("input").prop("disabled", false);
+                        console.log(this);
+                        window.location.href = './Thankyou'; //
+                    }
+                    else {
+                        $("#error").removeClass("d-none");
+
+                    }
+
+                    $("#all_sub").addClass("d-none");
+                },
+                fail: function () { }
+            });
+        });
+
+    </script>
+}

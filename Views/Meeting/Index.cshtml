@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿@model IEnumerable<Models.Meeting>
 @using Portal.Helpers
 @using Portal.Extentions
@@ -209,4 +210,217 @@
             controller.Grid.Search();
         });
     </script>
+=======
+﻿@model IEnumerable<Models.Meeting>
+@using Portal.Helpers
+@using Portal.Extentions
+@{
+    ViewBag.Title = "Meetings";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Index</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Meetings</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<style>
+    button[data-toggle="collapse"] {
+        text-align: left;
+        font-size: 13px;
+    }
+
+        button[data-toggle="collapse"] i {
+            margin-right: 5px;
+        }
+
+        button[data-toggle="collapse"][aria-expanded="true"] i.glyphicon-chevron-right:before {
+            content: "\e114";
+        }
+</style>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row" id="MeetingList">
+        <div class="col-lg-12" data-bind="with: Grid">
+            <div class="ibox">
+
+
+                <br />
+
+                <div class="card">
+                    <button class="btn btn-link collapsed card-header" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        <i class="glyphicon glyphicon-chevron-right"></i>
+
+                    </button>
+                    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" data-parent="#accordion">
+                        <div class="card-body ">
+                            <form data-bind="submit: Search" @*class="ibox-heading"*@>
+                                <div class="row">
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Subject</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC._Subject" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Meeting ID</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC.UId" />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Organizer Name</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC._OrganizerName" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Organizer Email</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC._OrganizerEmail" />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Participate Name</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC.HasParticipateName" />
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Participate Email</label>
+                                        <input type="text" class="form-control text-box single-line" data-bind="value: SC.HasParticipateEmail" />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Metting Date From</label>
+                                        <input id="start_Date" type="text" class="date form-control text-box single-line" data-bind="date: SC.From" />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Metting Date To</label>
+                                        <input id="end_Date" type="text" class="date form-control text-box single-line" data-bind="date: SC.To" />
+                                    </div>
+
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Meeting Status</label>
+                                        <select class="form-control text-box" data-bind="value: SC.IsCancelled, options: $root.MeetingStatus, optionsText: 'optionsText', optionsValue: 'value'"></select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Recurring Meeting</label>
+                                        <select class="form-control text-box" data-bind="value: SC.IsRecurring, options: $root.MeetingRecurring, optionsText: 'optionsText', optionsValue: 'value'"></select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Meeting Type</label>
+                                        <select class="form-control text-box" data-bind="value: SC.MeetingType , options: $root.MeetingType, optionsText: 'optionsText', optionsValue: 'value'"></select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">WrapUp Status</label>
+                                        <select class="form-control text-box" data-bind="value: SC.IsWrapUpSent, options: $root.WrapUpStatus, optionsText: 'optionsText', optionsValue: 'value'"></select>
+                                    </div>
+                                    <div class="form-group col-lg-6">
+                                        <label class="">Report Status</label>
+                                        <select class="form-control text-box" data-bind="value: SC.IsReportSent, options: $root.ReportStatus, optionsText: 'optionsText', optionsValue: 'value'"></select>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="row pull-right mr-5 mb-5">
+                                    <button class="btn btn-info" type="submit"><i class="fa fa-search">Search</i></button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="ibox-content">
+
+                    <div id="webGrid_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer">
+                        @Html.Partial("_KoGrid")
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/Content/plugins/dataTables/dataTablesStyles")
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+
+
+}
+
+ 
+
+<template id="Id">
+    <a class="" target="_blank" href="#" data-bind="text: Id, attr: { href: '@Url.Action("View", "Meeting")/' + Id }"></a>
+</template>
+<template id="Subject">
+    <a class="" target="_blank" href="#" data-bind="text: Subject, attr: { href: '@Url.Action("View", "Meeting")/' + Id }"></a>
+</template>
+@section Scripts {
+    @*@Scripts.Render("~/plugins/dataTables")*@
+
+    <script src="~/Scripts/knockout-3.3.0.js"></script>
+    <script src="~/Scripts/knockout.viewmodel.2.0.3.js"></script>
+    <script src="~/Scripts/sugar.js"></script>
+    <script src="~/Scripts/koCustom.js?1"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+
+    <script type="text/javascript">
+        function Controller() {
+            var self = this;
+
+            self.MeetingStatus = [{ value: null, optionsText: '-- Select --' }, { value: true, optionsText: 'Cancelled' }, { value: false, optionsText: 'Not Cancelled' }];
+            self.MeetingRecurring = [{ value: null, optionsText: '-- Select --' }, { value: true, optionsText: 'Recurring' }, { value: false, optionsText: 'Non Recurring' }];
+            self.MeetingType = [{ value: null, optionsText: '-- Select --' }, { value: '0', optionsText: '1:1 Meeting' }, { value: '1', optionsText: 'Group Meeting' }, { value: '2', optionsText: 'Group Meeting (Big)' }];
+
+            self.WrapUpStatus = [{ value: null, optionsText: '-- Select --' }, { value: true, optionsText: 'Sent' }, { value: false, optionsText: 'Not Sent' }];
+            self.ReportStatus = [{ value: null, optionsText: '-- Select --' }, { value: true, optionsText: 'Sent' }, { value: false, optionsText: 'Not Sent' }];
+
+            self.Grid = new KoGrid("@Url.Action("Search",new { id = ViewBag.ID })", @Html.Raw(Json.Encode(new Portal.UISC.MeetingSC() { SortAsc = true, SortColumn = "startdate", RowsPerPage = 15, })));
+
+            self.Grid.SC.From(new Date());
+            
+            self.Grid.SC.To(new Date().addDays(7));
+
+            self.Grid.ExportUrl = "@Url.Action("Export")";
+
+
+            self.Grid.GridColumns.Allowed(true);
+
+            self.Grid.GridColumns.push({ Header: "Id", Name: "Id", IsSort: true, Type: "template", ViewOrder: ko.observable(0), });
+ 
+            self.Grid.GridColumns.push({ Header: "Start Date", Name: "StartDate", IsSort: true, Type: "datetime", ViewOrder: ko.observable(1), });
+            self.Grid.GridColumns.push({ Header: "Organizer", Name: "OrganizerName", IsSort: true, Type: "string", ViewOrder: ko.observable(2), });
+
+            self.Grid.GridColumns.push({ Header: "Subject", Name: "Subject", IsSort: true, Type: "template", ViewOrder: ko.observable(3), });
+
+
+            self.Grid.GridColumns.push({ Header: "Status", Name: "Status", IsSort: true, Type: "string", ViewOrder: ko.observable(4), });
+
+            self.Grid.GridColumns.push({ Header: "Recurring Meeting", Name: "RecurringMeeting", IsSort: true, Type: "string", ViewOrder: ko.observable(-1), });
+            self.Grid.GridColumns.push({ Header: "Meeting Type", Name: "MeetingType", IsSort: true, Type: "string", ViewOrder: ko.observable(-1), });
+            self.Grid.GridColumns.push({ Header: "WrapUp Status", Name: "WrapupStatus", IsSort: true, Type: "string", ViewOrder: ko.observable(-1), });
+            self.Grid.GridColumns.push({ Header: "Report Status", Name: "ReportStatus", IsSort: true, Type: "string", ViewOrder: ko.observable(-1), });
+
+            self.Grid.GridColumns.push({ Header: "End Date", Name: "EndDate", IsSort: true, Type: "datetime", ViewOrder: ko.observable(-1), });
+
+            
+        }
+
+        $(document).ready(function () {
+            var controller = new Controller();
+            ko.applyBindings(controller, document.getElementById("MeetingList"));
+            controller.Grid.Search();
+        });
+    </script>
+>>>>>>> cea7130 (Initial commit)
 }

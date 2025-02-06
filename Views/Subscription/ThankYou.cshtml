@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PublicSubscription.cshtml";
+}
+
+
+<h2>Stretch Subscribe</h2>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h4>Unsubscribe To Stretch</h4>
+                </div>
+                <div class="ibox-content">
+                    <div class="col-xs-6 ">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <strong><p>Thank you  </p></strong>
+                            <p>You are now subscribed.</p>
+                        </div>
+
+                        <p id="successlbl" class="cg-notify-message"></p>
+                        @*@Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-danger pull-right" })*@
+
+
+                        <div class="col-lg-6">
+                            <ul class="stat-list">
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script type="text/javascript">
+
+        $("#sub").click(function () {
+
+                 $.ajax({
+                    url: "./subscripe",
+                    type: "Post",
+                     contentType: "application/json",
+                     data: JSON.stringify(@Html.Raw(Json.Encode(Model))),
+                     success: function (result)
+                     {
+
+                         if (result) {
+                             $("#successlbl").html("Subscribed Successfully") ;
+                         }
+                         else {
+                             $("#successlbl").html("Error while to Subscribe to Stretch you may exist or have validation error ");
+                         }
+
+                    },
+                    fail: function () { }
+                });
+            });
+        $(".resubbtn").click(function (e) {
+            e.preventDefault();
+            var target = $(this);
+            var jsonObj;
+            if ($(this).attr("data-id") == "notifications") {
+                jsonObj = {
+
+                    key: $("#key").val(), WrapUp: true, Reminder: true, ReportNotice: true, Report: true, isSubscribe:true,
+
+
+                }
+            }
+            else {
+                jsonObj = {
+                    key: $("#key").val(), WrapUp: true, Reminder: true, ReportNotice: true, Report: true, isSubscribe: true,
+                }
+            }
+
+
+            $.ajax({
+
+                url: "./EditPrefrance",
+                type: "Post",
+                contentType: "application/json",
+                data: JSON.stringify(jsonObj),
+                success: function (result) {
+
+                    if (result.state) {
+                        //$("#sucess").removeClass("d-none");
+                        //$("#sucess").html('<p>You are subscriped again </p>');
+                        target.addClass("d-none");
+                        target.closest("div").find("input").prop("disabled", false);
+                        console.log(this);
+                    }
+                    else {
+                        $("#error").removeClass("d-none");
+
+                    }
+
+                    $("#all_sub").addClass("d-none");
+                },
+                fail: function () { }
+            });
+        });
+
+    </script>
+}
